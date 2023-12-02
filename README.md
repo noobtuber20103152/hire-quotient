@@ -3,16 +3,16 @@
 
 #### Deployed link
 
-```http
+```sh
   https://hire-quotient-omega.vercel.app/
 ```
 #### Github link
 
-```http
+```sh
   https://github.com/noobtuber20103152/hire-quotient
 ```
 #### Docker image
 
-```http
+```sh
   docker pull noobtuber100/hire-quotient:latest
 ```
