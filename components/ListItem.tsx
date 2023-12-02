@@ -114,7 +114,7 @@ function ListItem({ listData, setData, index }: any) {
               <>
                 <button
                   onClick={() => setEdit(true)}
-                  className="py-2 px-2 border rounded-sm"
+                  className="py-2 px-2 edit border rounded-sm"
                 >
                   <FaRegEdit />
                 </button>
@@ -125,7 +125,7 @@ function ListItem({ listData, setData, index }: any) {
                   onClick={() => {
                     setEdit(false);
                   }}
-                  className="py-2 px-2 border rounded-sm"
+                  className="py-2 px-2 save border rounded-sm"
                 >
                   <AiOutlineSave className="text-green-500" />
                 </button>
@@ -135,7 +135,7 @@ function ListItem({ listData, setData, index }: any) {
               onClick={() => {
                 del(index);
               }}
-              className="py-2 px-2 border rounded-sm"
+              className="py-2 px-2 delete border rounded-sm"
             >
               <MdDelete className="text-red-600" />
             </button>
