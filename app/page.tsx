@@ -10,14 +10,21 @@ import ListItem from "@/components/ListItem";
 import PaginationSkeleton from "@/components/PaginationSkeleton";
 import "react-toastify/dist/ReactToastify.css";
 import { useDispatch, useSelector } from "react-redux";
-import { deleteSelectedItems, setData } from "@/store/slice";
+import {
+  deSelectAll,
+  deleteSelectedItems,
+  selectAll,
+  setData,
+} from "@/store/slice";
 import { RootState } from "@/store/store";
 import Pagination from "@/components/Pagination";
+import Searchbar from "@/components/Searchbar";
 export default function Home() {
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const data = useSelector((state: RootState) => state.counter.data);
   const page = useSelector((state: RootState) => state.counter.page);
+  const selectedPage = useSelector((state: any) => state.counter.selectedPage);
   const deleteItems = useSelector(
     (state: RootState) => state.counter.deleteItems
   );
@@ -42,13 +49,8 @@ export default function Home() {
   return (
     <>
       <div className="relative max-w-5xl mx-auto my-20 overflow-x-auto px-6">
-        <div className="mb-4 flex justify-between">
-          <input
-            className="outline-none px-3 py-1 border rounded-sm "
-            type="text"
-            placeholder="Search"
-          />
-          {page}
+        <div className="mb-4 flex justify-between items-center">
+          <Searchbar />
           <button
             onClick={() => (deleteItems?.length ? del() : {})}
             type="button"
@@ -61,10 +63,20 @@ export default function Home() {
           </button>
         </div>
         <table className="w-full border rounded-lg table-auto text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <thead className="text-xs text-gray-400 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
-                <input type="checkbox" />
+                <input
+                  onChange={(e) => {
+                    if (e.target.checked) {
+                      dispatch(selectAll(1));
+                    } else {
+                      dispatch(deSelectAll(1));
+                    }
+                  }}
+                  type="checkbox"
+                  checked={selectedPage === page}
+                />
               </th>
               <th scope="col" className="px-6 py-3">
                 Name
@@ -87,16 +99,17 @@ export default function Home() {
               </>
             ) : (
               <>
-                {data
-                  ?.slice((page - 1) * 10, Math.min(page * 10, data?.length))
-                  ?.map((list: any, index: number) => {
-                    if (index < 10)
-                      return (
-                        <>
-                          <ListItem listData={list} index={index} />
-                        </>
-                      );
-                  })}
+                {data?.map((list: any, index: number) => {
+                  if (
+                    index >= (page - 1) * 10 &&
+                    index < Math.min(page * 10, data?.length)
+                  )
+                    return (
+                      <>
+                        <ListItem listData={list} index={index} />
+                      </>
+                    );
+                })}
               </>
             )}
           </tbody>
@@ -107,7 +120,17 @@ export default function Home() {
           </>
         ) : (
           <>
-            <Pagination />
+            {data?.length ? (
+              <>
+                <Pagination />
+              </>
+            ) : (
+              <>
+                <h1 className="text-center mt-6 font-bold text-xl">
+                  Items not found
+                </h1>
+              </>
+            )}
           </>
         )}
       </div>

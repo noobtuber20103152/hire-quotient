@@ -5,7 +5,7 @@ import { MdDelete } from "react-icons/md";
 function Loading() {
   return (
     <>
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((list: any) => {
+      {Array.from(Array(10)).map((list: any) => {
         return (
           <>
             <tr className="bg-white border-b animate-pulse dark:bg-gray-800 dark:border-gray-700">

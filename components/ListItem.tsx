@@ -11,6 +11,8 @@ function ListItem({ listData, setData, index }: any) {
   const dispatch = useDispatch();
   const data = useSelector((state: RootState) => state.counter.data);
   const deleteItems = useSelector((state: any) => state.counter.deleteItems);
+  const selectedPage = useSelector((state: any) => state.counter.selectedPage);
+  const page = useSelector((state: any) => state.counter.page);
   const { name, email, role } = listData;
   const [edit, setEdit] = useState(false);
   const del = (index: number) => {
@@ -27,7 +29,13 @@ function ListItem({ listData, setData, index }: any) {
   };
   return (
     <>
-      <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+      <tr
+        className={`${
+          selectedPage === page || deleteItems.indexOf(index) > -1
+            ? "bg-gray-100"
+            : ""
+        } bg-white border-b `}
+      >
         <th className="px-6 py-4">
           <input
             onChange={(e) => {
@@ -38,6 +46,7 @@ function ListItem({ listData, setData, index }: any) {
                 dispatch(deSelect({ index: index }));
               }
             }}
+            checked={selectedPage === page || deleteItems.indexOf(index) > -1}
             type="checkbox"
           />
         </th>
@@ -47,7 +56,7 @@ function ListItem({ listData, setData, index }: any) {
         >
           {!edit ? (
             <>
-              <td className="px-6 py-4">{name} </td>
+              <td className="py-2 text-black">{name} </td>
             </>
           ) : (
             <>
@@ -65,7 +74,7 @@ function ListItem({ listData, setData, index }: any) {
         </th>
         {!edit ? (
           <>
-            <td className="px-6 py-4">{email}</td>
+            <td className="px-6 py-4 text-black">{email}</td>
           </>
         ) : (
           <>
@@ -73,7 +82,7 @@ function ListItem({ listData, setData, index }: any) {
               {" "}
               <input
                 onChange={onchange}
-                className="border rounded-sm outline-none w-68 px-2 py-1"
+                className="border  text-black rounded-sm outline-none w-68 px-2 py-1"
                 type="text"
                 name="email"
                 value={email}
@@ -91,7 +100,7 @@ function ListItem({ listData, setData, index }: any) {
               {" "}
               <input
                 onChange={onchange}
-                className="border rounded-sm outline-none w-68 px-2 py-1"
+                className="border text-black rounded-sm outline-none w-68 px-2 py-1"
                 type="text"
                 name="role"
                 value={role}

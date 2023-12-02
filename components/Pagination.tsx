@@ -17,22 +17,24 @@ function Pagination() {
   return (
     <>
       <div className=" w-full my-4 py-2">
-        <div className="flex justify-between">
+        <div className="flex md:flex-row flex-col justify-between">
           <div>
             <span className="text-sm text-gray-600">
               {deleteItems?.length} of {data.length} rows(s) selected
             </span>
           </div>
-          <div className="flex items-center gap-5">
+          <div className="flex sm:flex-row flex-col sm:items-center gap-5 md:my-0 my-3">
             <span className="text-sm text-black font-bold">
-              Page {page} of 5
+              Page {page} of {finalPage}
             </span>
             <div className="flex gap-2">
               <button
                 onClick={() => {
                   dispatch(changePage({ step: "first" }));
                 }}
-                className="h-7 w-7 justify-center items-center border rounded-sm flex flex-row"
+                className={` ${
+                  page === 1 ? "text-gray-200" : ""
+                } h-7 w-7 rounded-lg  justify-center items-center border  flex flex-row first-page `}
               >
                 &lt;&lt;
               </button>
@@ -42,7 +44,9 @@ function Pagination() {
                     dispatch(changePage({ step: "prev" }));
                   }
                 }}
-                className="h-7 w-7 justify-center items-center border rounded-sm flex flex-row"
+                className={` ${
+                  page === 1 ? "text-gray-200" : ""
+                } h-7 w-7 rounded-lg  justify-center items-center border flex flex-row previous-page`}
               >
                 &lt;
               </button>
@@ -52,7 +56,7 @@ function Pagination() {
                     ? data?.length / 10
                     : Math.trunc(data?.length / 10) + 1
                 )
-              ).map((page: any, index: any) => {
+              ).map((val: any, index: any) => {
                 return (
                   <>
                     <button
@@ -61,7 +65,9 @@ function Pagination() {
                           changePage({ step: "random", page: index + 1 })
                         );
                       }}
-                      className="h-7 w-7 justify-center items-center border rounded-sm flex flex-row"
+                      className={` ${
+                        page === index + 1 ? "bg-gray-200" : ""
+                      } h-7 w-7 justify-center items-center border rounded-lg flex flex-row`}
                     >
                       {index + 1}
                     </button>
@@ -74,7 +80,9 @@ function Pagination() {
                     dispatch(changePage({ step: "next" }));
                   }
                 }}
-                className="h-7 w-7 justify-center items-center border rounded-sm flex flex-row"
+                className={`${
+                  page === finalPage ? "text-gray-200" : ""
+                } h-7 w-7 justify-center items-center border rounded-lg  flex flex-row next-page`}
               >
                 &gt;
               </button>
@@ -82,7 +90,9 @@ function Pagination() {
                 onClick={() => {
                   dispatch(changePage({ step: "last" }));
                 }}
-                className="h-7 w-7 justify-center items-center border rounded-sm flex flex-row"
+                className={`${
+                  page === finalPage ? "text-gray-200" : ""
+                } h-7 w-7 justify-center items-center border rounded-lg  flex flex-row last-page`}
               >
                 &gt;&gt;
               </button>
